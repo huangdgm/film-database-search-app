@@ -376,7 +376,9 @@ public class FilmDatabaseSearchApp extends JFrame implements ActionListener {
 
 		filteredFilmListTableModel = new FilteredFilmListTableModel(filteredFilmList);
 
-		filmDatabaseView.update(filteredFilmListTableModel);
+		filmDatabaseView.setFilteredFilmListTableModel(filteredFilmListTableModel);
+		
+		filmDatabaseView.update();
 
 		/**
 		 * Since a new TableRowSorter will be created each time the TableModel
@@ -524,8 +526,10 @@ public class FilmDatabaseSearchApp extends JFrame implements ActionListener {
 		FilteredFilmListTableModel filteredFilmListTableModel;
 
 		filteredFilmListTableModel = new FilteredFilmListTableModel(getFilteredFilmList());
+		
+		filmDatabaseView.setFilteredFilmListTableModel(filteredFilmListTableModel);
 
-		filmDatabaseView.update(filteredFilmListTableModel);
+		filmDatabaseView.update();
 		// The film detail info text area is cleared each time the search button
 		// is pressed
 		filmDatabaseView.update("");

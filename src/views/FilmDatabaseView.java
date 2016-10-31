@@ -36,6 +36,7 @@ import models.Genre;
  */
 public class FilmDatabaseView extends JPanel {
 	private static final long serialVersionUID = 1L;
+	private FilteredFilmListTableModel filteredFilmListTableModel;
 
 	private JMenuBar menuBar;
 	private JMenu fileMenu;
@@ -404,11 +405,19 @@ public class FilmDatabaseView extends JPanel {
 		this.authorMenuItem = authorMenuItem;
 	}
 
-	public void update(FilteredFilmListTableModel filteredFilmListTableModel) {
+	public void update() {
 		searchResultTable.setModel(filteredFilmListTableModel);
 	}
 
 	public void update(String filmDetailInfo) {
 		filmDetailInfoTextArea.setText(filmDetailInfo);
+	}
+	
+	public FilteredFilmListTableModel getFilteredFilmListTableModel() {
+		return filteredFilmListTableModel;
+	}
+
+	public void setFilteredFilmListTableModel(FilteredFilmListTableModel filteredFilmListTableModel) {
+		this.filteredFilmListTableModel = filteredFilmListTableModel;
 	}
 }

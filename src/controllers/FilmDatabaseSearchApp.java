@@ -34,6 +34,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableRowSorter;
 
+import models.FileSaver;
 import models.Film;
 import models.FilmDatabaseModel;
 import models.FilteredFilmListTableModel;
@@ -53,10 +54,10 @@ import views.FilmDatabaseView;
  */
 @SuppressWarnings("serial")
 public class FilmDatabaseSearchApp extends JFrame implements ActionListener {
+	private FilmDatabaseView filmDatabaseView;
+	
 	private FilmDatabaseModel filmDatabaseModel;
 	private FilteredFilmListTableModel filteredFilmListTableModel;
-
-	private FilmDatabaseView filmDatabaseView;
 
 	private Film addedFilm;
 	private File file = new File("database/filmList - original.txt");
@@ -274,47 +275,20 @@ public class FilmDatabaseSearchApp extends JFrame implements ActionListener {
 
 		switch (response) {
 		case JOptionPane.YES_OPTION:
-			saveAndExit();
-			break;
+			FileSaver fs;
+			String pathString;
+			
+			fs = new FileSaver(filmDatabaseModel);
+			pathString = fs.saveFile();
+			
+			JOptionPane.showMessageDialog(FilmDatabaseSearchApp.this, "The updated database is saved as:\n\n" + pathString + "\n\nYou can load your own database under the above directory.");
+
+			System.exit(0);
 		case JOptionPane.NO_OPTION:
 			System.exit(0);
-			break;
 		case JOptionPane.CANCEL_OPTION:
 			break;
 		}
-	}
-
-	/**
-	 * Save the modified database to a external text file and exit.
-	 * 
-	 * @param void
-	 * @return void
-	 * @author Dong Huang 15920066
-	 */
-	private void saveAndExit() {
-		List<Film> filmList = filmDatabaseModel.getfilmList();
-		String str = String.valueOf(filmList.size()) + "\n\n";
-
-		for (int i = 0; i < filmList.size(); i++) {
-			str = str.concat(filmList.get(i).toString());
-		}
-
-		byte[] byteData = str.getBytes();
-
-		DateFormat dateFormatter = new SimpleDateFormat("yyyyMMddHHmmss");
-		Date date = new Date();
-		String pathString = "./database/filmList - " + dateFormatter.format(date) + ".txt";
-		Path path = Paths.get(pathString);
-
-		try (OutputStream outputStream = new BufferedOutputStream(Files.newOutputStream(path, CREATE))) {
-			outputStream.write(byteData, 0, byteData.length);
-		} catch (IOException e) {
-			System.err.println(e);
-		}
-
-		JOptionPane.showMessageDialog(FilmDatabaseSearchApp.this, "The updated database is saved as:\n\n" + pathString + "\n\nYou can load your own database under the above directory.");
-
-		System.exit(0);
 	}
 
 	/**

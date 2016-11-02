@@ -222,7 +222,7 @@ public class FilmDatabaseSearchApp extends JFrame implements ActionListener {
 			}
 		});
 
-		filmDatabaseView.getResetSearchCriteriaCheckBox().addActionListener(new ActionListener() {
+		filmDatabaseView.getResetSearchCriteriaButton().addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -506,8 +506,6 @@ public class FilmDatabaseSearchApp extends JFrame implements ActionListener {
 		if (filteredFilmList.size() == 0) {
 			JOptionPane.showMessageDialog(FilmDatabaseSearchApp.this, "No result found. Please try again.");
 		}
-
-		filmDatabaseView.getResetSearchCriteriaCheckBox().setSelected(false);
 	}
 
 	/**

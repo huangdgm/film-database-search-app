@@ -60,7 +60,7 @@ public class FilmDatabaseView extends JPanel {
 	private JComboBox<Object> releaseYearToComboBox;
 	private JComboBox<String> keywordSearchByComboBox;
 	private JCheckBox[] ratingCheckBox = new JCheckBox[5];
-	private JCheckBox resetSearchCriteriaCheckBox;
+	private JButton resetSearchCriteriaButton;
 
 	private JLabel genreLabel;
 	private JLabel releaseYearLabel;
@@ -195,12 +195,12 @@ public class FilmDatabaseView extends JPanel {
 		releaseYearToComboBox.setSize(100, 20);
 		add(releaseYearToComboBox);
 
-		resetSearchCriteriaCheckBox = new JCheckBox("Reset Search Criteria (Alt+R)");
-		resetSearchCriteriaCheckBox.setSize(200, 20);
-		resetSearchCriteriaCheckBox.setLocation(1000, 70);
-		resetSearchCriteriaCheckBox.setSelected(false);
-		resetSearchCriteriaCheckBox.setMnemonic(KeyEvent.VK_R);
-		add(resetSearchCriteriaCheckBox);
+		resetSearchCriteriaButton = new JButton("Reset Search");
+		resetSearchCriteriaButton.setSize(120, 40);
+		resetSearchCriteriaButton.setLocation(1000, 50);
+		resetSearchCriteriaButton.setSelected(false);
+		resetSearchCriteriaButton.setMnemonic(KeyEvent.VK_R);
+		add(resetSearchCriteriaButton);
 
 		for (int i = 0; i < ratingCheckBox.length; i++) {
 			ratingCheckBox[i] = new JCheckBox();
@@ -365,12 +365,12 @@ public class FilmDatabaseView extends JPanel {
 		this.removeButton = removeButton;
 	}
 
-	public JCheckBox getResetSearchCriteriaCheckBox() {
-		return resetSearchCriteriaCheckBox;
+	public JButton getResetSearchCriteriaButton() {
+		return resetSearchCriteriaButton;
 	}
 
-	public void setResetSearchCriteriaCheckBox(JCheckBox resetSearchCriteriaCheckBox) {
-		this.resetSearchCriteriaCheckBox = resetSearchCriteriaCheckBox;
+	public void setResetSearchCriteriaButton(JButton resetSearchCriteriaCheckBox) {
+		this.resetSearchCriteriaButton = resetSearchCriteriaCheckBox;
 	}
 
 	public JMenuItem getOpenFileMenuItem() {

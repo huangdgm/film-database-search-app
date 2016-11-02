@@ -405,19 +405,19 @@ public class FilmDatabaseView extends JPanel {
 		this.authorMenuItem = authorMenuItem;
 	}
 
-	public void update() {
-		searchResultTable.setModel(filteredFilmListTableModel);
-	}
-
-	public void update(String filmDetailInfo) {
-		filmDetailInfoTextArea.setText(filmDetailInfo);
-	}
-	
 	public FilteredFilmListTableModel getFilteredFilmListTableModel() {
 		return filteredFilmListTableModel;
 	}
 
 	public void setFilteredFilmListTableModel(FilteredFilmListTableModel filteredFilmListTableModel) {
 		this.filteredFilmListTableModel = filteredFilmListTableModel;
+	}
+	
+	public void update() {
+		searchResultTable.setModel(filteredFilmListTableModel);
+	}
+	
+	public void update(String filmDetailInfo) {
+		filmDetailInfoTextArea.setText(filmDetailInfo);
 	}
 }

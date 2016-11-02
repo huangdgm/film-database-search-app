@@ -19,9 +19,18 @@ import java.util.List;
  */
 public class FileSaver {
 	private FilmDatabaseModel filmDatabaseModel;
+	private String pathString;
 
 	public FileSaver(FilmDatabaseModel filmDatabaseModel) {
 		this.filmDatabaseModel = filmDatabaseModel;
+	}
+	
+	public String getPathString() {
+		return pathString;
+	}
+	
+	public void setPathString(String pathString) {
+		this.pathString = pathString;
 	}
 
 	public FilmDatabaseModel getFilmDatabaseModel() {
@@ -36,10 +45,10 @@ public class FileSaver {
 	 * Save the string stream to a external text file.
 	 * 
 	 * @param void
-	 * @return The path of the external text file being created.
+	 * @return void
 	 * @author Dong Huang 15920066
 	 */
-	public String saveFile() {
+	public void saveFile() {
 		String stringStream;
 		byte[] byteData;
 
@@ -48,7 +57,7 @@ public class FileSaver {
 
 		DateFormat dateFormatter = new SimpleDateFormat("yyyyMMddHHmmss");
 		Date date = new Date();
-		String pathString = "./database/filmList - " + dateFormatter.format(date) + ".txt";
+		this.setPathString("./database/filmList - " + dateFormatter.format(date) + ".txt");
 		Path path = Paths.get(pathString);
 
 		try (OutputStream outputStream = new BufferedOutputStream(Files.newOutputStream(path, CREATE))) {
@@ -56,8 +65,6 @@ public class FileSaver {
 		} catch (IOException e) {
 			System.err.println(e);
 		}
-
-		return pathString;
 	}
 
 	/**

@@ -1,26 +1,15 @@
 package controllers;
 
-import static java.nio.file.StandardOpenOption.CREATE;
-
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 import javax.swing.JCheckBox;
@@ -276,12 +265,12 @@ public class FilmDatabaseSearchApp extends JFrame implements ActionListener {
 		switch (response) {
 		case JOptionPane.YES_OPTION:
 			FileSaver fs;
-			String pathString;
 			
 			fs = new FileSaver(filmDatabaseModel);
-			pathString = fs.saveFile();
 			
-			JOptionPane.showMessageDialog(FilmDatabaseSearchApp.this, "The updated database is saved as:\n\n" + pathString + "\n\nYou can load your own database under the above directory.");
+			fs.saveFile();
+			
+			JOptionPane.showMessageDialog(FilmDatabaseSearchApp.this, "The updated database is saved as:\n\n" + fs.getPathString() + "\n\nYou can load your own database under the above directory.");
 
 			System.exit(0);
 		case JOptionPane.NO_OPTION:

@@ -33,14 +33,6 @@ public class FileSaver {
 		this.pathString = pathString;
 	}
 
-	public FilmDatabaseModel getFilmDatabaseModel() {
-		return filmDatabaseModel;
-	}
-
-	public void setFilmDatabaseModel(FilmDatabaseModel filmDatabaseModel) {
-		this.filmDatabaseModel = filmDatabaseModel;
-	}
-
 	/**
 	 * Save the string stream to a external text file.
 	 * 

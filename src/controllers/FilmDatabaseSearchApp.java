@@ -44,7 +44,7 @@ import views.FilmDatabaseView;
 @SuppressWarnings("serial")
 public class FilmDatabaseSearchApp extends JFrame implements ActionListener {
 	private FilmDatabaseView filmDatabaseView;
-	
+
 	private FilmDatabaseModel filmDatabaseModel;
 	private FilteredFilmListTableModel filteredFilmListTableModel;
 
@@ -265,11 +265,11 @@ public class FilmDatabaseSearchApp extends JFrame implements ActionListener {
 		switch (response) {
 		case JOptionPane.YES_OPTION:
 			FileSaver fs;
-			
+
 			fs = new FileSaver(filmDatabaseModel);
-			
+
 			fs.saveFile();
-			
+
 			JOptionPane.showMessageDialog(FilmDatabaseSearchApp.this, "The updated database is saved as:\n\n" + fs.getPathString() + "\n\nYou can load your own database under the above directory.");
 
 			System.exit(0);
@@ -340,7 +340,7 @@ public class FilmDatabaseSearchApp extends JFrame implements ActionListener {
 		filteredFilmListTableModel = new FilteredFilmListTableModel(filteredFilmList);
 
 		filmDatabaseView.setFilteredFilmListTableModel(filteredFilmListTableModel);
-		
+
 		filmDatabaseView.update();
 
 		/**
@@ -487,15 +487,25 @@ public class FilmDatabaseSearchApp extends JFrame implements ActionListener {
 	 */
 	public void actionPerformed(ActionEvent e) {
 		FilteredFilmListTableModel filteredFilmListTableModel;
+		ArrayList<Film> filteredFilmList = new ArrayList<Film>();
 
-		filteredFilmListTableModel = new FilteredFilmListTableModel(getFilteredFilmList());
-		
+		filteredFilmList = getFilteredFilmList();
+		filteredFilmListTableModel = new FilteredFilmListTableModel(filteredFilmList);
 		filmDatabaseView.setFilteredFilmListTableModel(filteredFilmListTableModel);
 
+		/**
+		 * The update methods is overloading here. The first update refresh the
+		 * JTable while the second update update the text area view. The film
+		 * detail info text area is cleared each time the search button is
+		 * pressed. Following the update method is the conditional statement
+		 * which prompt the user with the message dialog window.
+		 */
 		filmDatabaseView.update();
-		// The film detail info text area is cleared each time the search button
-		// is pressed
 		filmDatabaseView.update("");
+
+		if (filteredFilmList.size() == 0) {
+			JOptionPane.showMessageDialog(FilmDatabaseSearchApp.this, "No result found. Please try again.");
+		}
 
 		filmDatabaseView.getResetSearchCriteriaCheckBox().setSelected(false);
 	}

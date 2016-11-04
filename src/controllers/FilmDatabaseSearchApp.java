@@ -106,7 +106,7 @@ public class FilmDatabaseSearchApp extends JFrame implements ActionListener {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(FilmDatabaseSearchApp.this, "Film Database Search Application\n\nv1.0");
+				JOptionPane.showMessageDialog(FilmDatabaseSearchApp.this, "Film Database Search Application\n\nv1.2");
 			}
 		});
 

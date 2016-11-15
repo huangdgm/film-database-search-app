@@ -412,11 +412,11 @@ public class FilmDatabaseView extends JPanel {
 	public void setFilteredFilmListTableModel(FilteredFilmListTableModel filteredFilmListTableModel) {
 		this.filteredFilmListTableModel = filteredFilmListTableModel;
 	}
-	
+
 	public void update() {
 		searchResultTable.setModel(filteredFilmListTableModel);
 	}
-	
+
 	public void update(String filmDetailInfo) {
 		filmDetailInfoTextArea.setText(filmDetailInfo);
 	}

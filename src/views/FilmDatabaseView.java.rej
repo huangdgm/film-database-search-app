@@ -1,0 +1,9 @@
+diff a/src/views/FilmDatabaseView.java b/src/views/FilmDatabaseView.java	(rejected hunks)
+@@ -36,6 +36,7 @@
+  */
+ public class FilmDatabaseView extends JPanel {
+ 	private static final long serialVersionUID = 1L;
++	private FilteredFilmListTableModel filteredFilmListTableModel;
+ 
+ 	private JMenuBar menuBar;
+ 	private JMenu fileMenu;

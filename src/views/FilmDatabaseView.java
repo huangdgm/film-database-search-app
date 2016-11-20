@@ -36,6 +36,7 @@ import models.Genre;
  */
 public class FilmDatabaseView extends JPanel {
 	private static final long serialVersionUID = 1L;
+	private FilteredFilmListTableModel filteredFilmListTableModel;
 
 	private JMenuBar menuBar;
 	private JMenu fileMenu;
@@ -59,7 +60,7 @@ public class FilmDatabaseView extends JPanel {
 	private JComboBox<Object> releaseYearToComboBox;
 	private JComboBox<String> keywordSearchByComboBox;
 	private JCheckBox[] ratingCheckBox = new JCheckBox[5];
-	private JCheckBox resetSearchCriteriaCheckBox;
+	private JButton resetSearchCriteriaButton;
 
 	private JLabel genreLabel;
 	private JLabel releaseYearLabel;
@@ -116,17 +117,17 @@ public class FilmDatabaseView extends JPanel {
 		add(menuBar);
 
 		genreLabel = new JLabel("Genre");
-		genreLabel.setLocation(10, 40);
+		genreLabel.setLocation(10, 30);
 		genreLabel.setSize(40, 30);
 		add(genreLabel);
 
 		releaseYearLabel = new JLabel("Release Year");
-		releaseYearLabel.setLocation(130, 40);
+		releaseYearLabel.setLocation(130, 30);
 		releaseYearLabel.setSize(100, 30);
 		add(releaseYearLabel);
 
 		toLabel = new JLabel("To");
-		toLabel.setLocation(238, 70);
+		toLabel.setLocation(238, 60);
 		toLabel.setSize(20, 20);
 		add(toLabel);
 
@@ -136,28 +137,28 @@ public class FilmDatabaseView extends JPanel {
 		add(toLabel);
 
 		searchByLabel = new JLabel("Search By");
-		searchByLabel.setLocation(650, 40);
+		searchByLabel.setLocation(650, 30);
 		searchByLabel.setSize(60, 30);
 		add(searchByLabel);
 
 		keywordsLabel = new JLabel("Keywords");
-		keywordsLabel.setLocation(760, 40);
+		keywordsLabel.setLocation(760, 30);
 		keywordsLabel.setSize(60, 30);
 		add(keywordsLabel);
 
 		genreComboBox = new JComboBox<Genre>(Genre.values());
 		genreComboBox.setSelectedIndex(0);
-		genreComboBox.setLocation(10, 70);
+		genreComboBox.setLocation(10, 60);
 		genreComboBox.setSize(100, 20);
 		add(genreComboBox);
 
 		keywordSearchTextField = new JTextField();
-		keywordSearchTextField.setLocation(760, 70);
+		keywordSearchTextField.setLocation(760, 60);
 		keywordSearchTextField.setSize(120, 20);
 		add(keywordSearchTextField);
 
 		searchButton = new JButton("Search");
-		searchButton.setLocation(910, 50);
+		searchButton.setLocation(910, 40);
 		searchButton.setSize(80, 40);
 		add(searchButton);
 
@@ -174,7 +175,7 @@ public class FilmDatabaseView extends JPanel {
 		String[] searchByKeywords = new String[] { "ANY", "Title", "Director", "Casts", "Storyline" };
 		keywordSearchByComboBox = new JComboBox<String>(searchByKeywords);
 		keywordSearchByComboBox.setSelectedIndex(0);
-		keywordSearchByComboBox.setLocation(650, 70);
+		keywordSearchByComboBox.setLocation(650, 60);
 		keywordSearchByComboBox.setSize(100, 20);
 		add(keywordSearchByComboBox);
 
@@ -182,7 +183,7 @@ public class FilmDatabaseView extends JPanel {
 		releaseYearFromComboBox.insertItemAt("ANY", 0);
 		releaseYearFromComboBox.insertItemAt("Before 1950", getReleaseYearFromArray().length + 1);
 		releaseYearFromComboBox.setSelectedIndex(0);
-		releaseYearFromComboBox.setLocation(130, 70);
+		releaseYearFromComboBox.setLocation(130, 60);
 		releaseYearFromComboBox.setSize(100, 20);
 		add(releaseYearFromComboBox);
 
@@ -190,26 +191,26 @@ public class FilmDatabaseView extends JPanel {
 		releaseYearToComboBox.insertItemAt("ANY", 0);
 		releaseYearToComboBox.insertItemAt("Before 1950", getReleaseYearToArray().length + 1);
 		releaseYearToComboBox.setSelectedIndex(0);
-		releaseYearToComboBox.setLocation(260, 70);
+		releaseYearToComboBox.setLocation(260, 60);
 		releaseYearToComboBox.setSize(100, 20);
 		add(releaseYearToComboBox);
 
-		resetSearchCriteriaCheckBox = new JCheckBox("Reset Search Criteria (Alt+R)");
-		resetSearchCriteriaCheckBox.setSize(200, 20);
-		resetSearchCriteriaCheckBox.setLocation(1000, 70);
-		resetSearchCriteriaCheckBox.setSelected(false);
-		resetSearchCriteriaCheckBox.setMnemonic(KeyEvent.VK_R);
-		add(resetSearchCriteriaCheckBox);
+		resetSearchCriteriaButton = new JButton("Reset Search");
+		resetSearchCriteriaButton.setSize(120, 40);
+		resetSearchCriteriaButton.setLocation(1000, 40);
+		resetSearchCriteriaButton.setSelected(false);
+		resetSearchCriteriaButton.setMnemonic(KeyEvent.VK_R);
+		add(resetSearchCriteriaButton);
 
 		for (int i = 0; i < ratingCheckBox.length; i++) {
 			ratingCheckBox[i] = new JCheckBox();
 			ratingCheckBox[i].setSize(20, 20);
-			ratingCheckBox[i].setLocation(380 + i * 50, 70);
+			ratingCheckBox[i].setLocation(380 + i * 50, 60);
 			ratingCheckBox[i].setSelected(true);
 
 			ratingLabels[i] = new JLabel((i + 1) + "Star");
 			ratingLabels[i].setSize(40, 30);
-			ratingLabels[i].setLocation(383 + i * 50, 40);
+			ratingLabels[i].setLocation(383 + i * 50, 30);
 			add(ratingLabels[i]);
 
 			add(ratingCheckBox[i]);
@@ -364,12 +365,12 @@ public class FilmDatabaseView extends JPanel {
 		this.removeButton = removeButton;
 	}
 
-	public JCheckBox getResetSearchCriteriaCheckBox() {
-		return resetSearchCriteriaCheckBox;
+	public JButton getResetSearchCriteriaButton() {
+		return resetSearchCriteriaButton;
 	}
 
-	public void setResetSearchCriteriaCheckBox(JCheckBox resetSearchCriteriaCheckBox) {
-		this.resetSearchCriteriaCheckBox = resetSearchCriteriaCheckBox;
+	public void setResetSearchCriteriaButton(JButton resetSearchCriteriaCheckBox) {
+		this.resetSearchCriteriaButton = resetSearchCriteriaCheckBox;
 	}
 
 	public JMenuItem getOpenFileMenuItem() {
@@ -404,7 +405,15 @@ public class FilmDatabaseView extends JPanel {
 		this.authorMenuItem = authorMenuItem;
 	}
 
-	public void update(FilteredFilmListTableModel filteredFilmListTableModel) {
+	public FilteredFilmListTableModel getFilteredFilmListTableModel() {
+		return filteredFilmListTableModel;
+	}
+
+	public void setFilteredFilmListTableModel(FilteredFilmListTableModel filteredFilmListTableModel) {
+		this.filteredFilmListTableModel = filteredFilmListTableModel;
+	}
+
+	public void update() {
 		searchResultTable.setModel(filteredFilmListTableModel);
 	}
 

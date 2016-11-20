@@ -1,26 +1,15 @@
 package controllers;
 
-import static java.nio.file.StandardOpenOption.CREATE;
-
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 import javax.swing.JCheckBox;
@@ -34,6 +23,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableRowSorter;
 
+import models.FileSaver;
 import models.Film;
 import models.FilmDatabaseModel;
 import models.FilteredFilmListTableModel;
@@ -53,10 +43,10 @@ import views.FilmDatabaseView;
  */
 @SuppressWarnings("serial")
 public class FilmDatabaseSearchApp extends JFrame implements ActionListener {
+	private FilmDatabaseView filmDatabaseView;
+
 	private FilmDatabaseModel filmDatabaseModel;
 	private FilteredFilmListTableModel filteredFilmListTableModel;
-
-	private FilmDatabaseView filmDatabaseView;
 
 	private Film addedFilm;
 	private File file = new File("database/filmList - original.txt");
@@ -116,7 +106,7 @@ public class FilmDatabaseSearchApp extends JFrame implements ActionListener {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(FilmDatabaseSearchApp.this, "Film Database Search Application\n\nv1.0");
+				JOptionPane.showMessageDialog(FilmDatabaseSearchApp.this, "Film Database Search Application\n\nv1.2");
 			}
 		});
 
@@ -232,7 +222,7 @@ public class FilmDatabaseSearchApp extends JFrame implements ActionListener {
 			}
 		});
 
-		filmDatabaseView.getResetSearchCriteriaCheckBox().addActionListener(new ActionListener() {
+		filmDatabaseView.getResetSearchCriteriaButton().addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
@@ -274,47 +264,20 @@ public class FilmDatabaseSearchApp extends JFrame implements ActionListener {
 
 		switch (response) {
 		case JOptionPane.YES_OPTION:
-			saveAndExit();
-			break;
+			FileSaver fs;
+
+			fs = new FileSaver(filmDatabaseModel);
+
+			fs.saveFile();
+
+			JOptionPane.showMessageDialog(FilmDatabaseSearchApp.this, "The updated database is saved as:\n\n" + fs.getPathString() + "\n\nYou can load your own database under the above directory.");
+
+			System.exit(0);
 		case JOptionPane.NO_OPTION:
 			System.exit(0);
-			break;
 		case JOptionPane.CANCEL_OPTION:
 			break;
 		}
-	}
-
-	/**
-	 * Save the modified database to a external text file and exit.
-	 * 
-	 * @param void
-	 * @return void
-	 * @author Dong Huang 15920066
-	 */
-	private void saveAndExit() {
-		List<Film> filmList = filmDatabaseModel.getfilmList();
-		String str = String.valueOf(filmList.size()) + "\n\n";
-
-		for (int i = 0; i < filmList.size(); i++) {
-			str = str.concat(filmList.get(i).toString());
-		}
-
-		byte[] byteData = str.getBytes();
-
-		DateFormat dateFormatter = new SimpleDateFormat("yyyyMMddHHmmss");
-		Date date = new Date();
-		String pathString = "./database/filmList - " + dateFormatter.format(date) + ".txt";
-		Path path = Paths.get(pathString);
-
-		try (OutputStream outputStream = new BufferedOutputStream(Files.newOutputStream(path, CREATE))) {
-			outputStream.write(byteData, 0, byteData.length);
-		} catch (IOException e) {
-			System.err.println(e);
-		}
-
-		JOptionPane.showMessageDialog(FilmDatabaseSearchApp.this, "The updated database is saved as:\n\n" + pathString + "\n\nYou can load your own database under the above directory.");
-
-		System.exit(0);
 	}
 
 	/**
@@ -376,7 +339,9 @@ public class FilmDatabaseSearchApp extends JFrame implements ActionListener {
 
 		filteredFilmListTableModel = new FilteredFilmListTableModel(filteredFilmList);
 
-		filmDatabaseView.update(filteredFilmListTableModel);
+		filmDatabaseView.setFilteredFilmListTableModel(filteredFilmListTableModel);
+
+		filmDatabaseView.update();
 
 		/**
 		 * Since a new TableRowSorter will be created each time the TableModel
@@ -522,15 +487,25 @@ public class FilmDatabaseSearchApp extends JFrame implements ActionListener {
 	 */
 	public void actionPerformed(ActionEvent e) {
 		FilteredFilmListTableModel filteredFilmListTableModel;
+		ArrayList<Film> filteredFilmList = new ArrayList<Film>();
 
-		filteredFilmListTableModel = new FilteredFilmListTableModel(getFilteredFilmList());
+		filteredFilmList = getFilteredFilmList();
+		filteredFilmListTableModel = new FilteredFilmListTableModel(filteredFilmList);
+		filmDatabaseView.setFilteredFilmListTableModel(filteredFilmListTableModel);
 
-		filmDatabaseView.update(filteredFilmListTableModel);
-		// The film detail info text area is cleared each time the search button
-		// is pressed
+		/**
+		 * The update methods is overloading here. The first update refresh the
+		 * JTable while the second update update the text area view. The film
+		 * detail info text area is cleared each time the search button is
+		 * pressed. Following the update method is the conditional statement
+		 * which prompt the user with the message dialog window.
+		 */
+		filmDatabaseView.update();
 		filmDatabaseView.update("");
 
-		filmDatabaseView.getResetSearchCriteriaCheckBox().setSelected(false);
+		if (filteredFilmList.size() == 0) {
+			JOptionPane.showMessageDialog(FilmDatabaseSearchApp.this, "No result found. Please try again.");
+		}
 	}
 
 	/**

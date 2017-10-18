@@ -12,3 +12,6 @@ This app can query, add, delete and sort film records based on a predefined film
  * 
  * @author Dong Huang 15920066
  */
+ 
+![qq 20171019121157](https://user-images.githubusercontent.com/21269499/31747088-50c53efa-b4c7-11e7-997a-7c5725834013.png)
+![qq 20171019121359](https://user-images.githubusercontent.com/21269499/31747090-53b884c8-b4c7-11e7-9afb-6c9f7da6fd42.png)
